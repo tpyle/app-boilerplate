@@ -3,7 +3,7 @@ import { apicall } from './utils/api';
 
 class APIComponent extends Component {
     constructor(props) {
-        super(props):
+        super(props);
         this.state = {};
         apicall()
             .then(result=>this._mounted && this.setState({ result }))

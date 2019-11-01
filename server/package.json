@@ -1,5 +1,5 @@
 {
-  "name": "APP",
+  "name": "app",
   "version": "0.1.0",
   "description": "Default APP boilerplate",
   "main": "index.js",

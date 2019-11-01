@@ -3,21 +3,34 @@ const BodyParser = require('body-parser');
 const CookieParser = require('cookie-parser');
 const path = require('path');
 const router = require('./api');
+const cluster = require('cluster');
 const config = require('./config')({ defaultConfig: { port: 3002 } })
 
-let app = express();
+if (cluster.isMaster) {
+    
+    var cpuCount = require('os').cpus().length * 2;
+	
+	for ( let i = 0; i < cpuCount; i++) {
+		cluster.fork();
+    }
+    
+} else {
 
-app.use(BodyParser.json());
-app.use(CookieParser());
+    let app = express();
 
-app.use('/api', router);
+    app.use(BodyParser.json());
+    app.use(CookieParser());
 
-app.use(express.static(path.join(__dirname, 'build')));
+    app.use('/api', router);
 
-app.get((_req, res)=>{
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-})
+    app.use(express.static(path.join(__dirname, 'build')));
 
-app.listen(config.port, ()=>{
-    console.log(`Now listening on port ${config.port}`);
-});
+    app.get((_req, res)=>{
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    })
+
+    app.listen(config.port, ()=>{
+        console.log(`Now listening on port ${config.port}`);
+    });
+
+}
