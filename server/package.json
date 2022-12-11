@@ -11,7 +11,7 @@
   "dependencies": {
     "cookie-parser": "^1.4.4",
     "daemonize2": "^0.4.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.3.0"
   }
 }
